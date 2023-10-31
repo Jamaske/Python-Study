@@ -20,12 +20,22 @@ def retry(func):
             delay *= 2
     return wrapper
 
-
-@retry
-def test_subject(retrus):
-    for i in range(retrus - 1):
+def loger(func):
+    def wrapper(*args, **kwargs):
+        print(f'{func.__name__} function call')
+        ret = func(*args, **kwargs)
+        print(f'{func.__name__} function exit')
+        return ret
+    return wrapper()
+@loger
+#@retry
+def test_subject(returns):
+    for i in range(returns - 1):
         yield False
-
     yield True
+    yield False
 
-test_subject(5)
+
+for i in test_subject(5):
+    print(i)
+
