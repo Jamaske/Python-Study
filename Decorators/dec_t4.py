@@ -7,25 +7,39 @@
 Если у декоратора заканчиваются попытки, он сдается и возвращает исключение
 '''
 
-
+from time import sleep
+import asyncio
 def retry(func):
     from time import sleep
     def wrapper(*args, **kwargs):
-        delay = 1;
+        delay = 1
         while True:
-            status = func(args, kwargs)
+            status = func(*args, **kwargs)
+            print(delay)
             if status:
                 break
-            sleep(delay)
             delay *= 2
     return wrapper
 
 
+
 @retry
-def test_subject(retrus):
-    for i in range(retrus - 1):
+def false_func():
+    return False
+
+
+
+def test_subject(retrys):
+    for i in range(retrys - 1):
         yield False
 
     yield True
 
-test_subject(5)
+print(false_func())
+
+
+def f(n):
+    if n<2: return 1
+    else: return f(n-1) + f(n-2)
+
+
