@@ -1,6 +1,5 @@
 import requests
 import re
-from bs4 import BeautifulSoup
 import webbrowser
 from lxml import html
 
