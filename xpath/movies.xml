@@ -1,6 +1,7 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="Movies.xsl" ?>
 <Movies>
+    <A/>
     <Movie rating= "R" runtime="177">
         <Title runtime="177" >The Godfather</Title>
         <Genre> Crime Drama </Genre>
@@ -145,5 +146,4 @@
         <Studio>Avery Pix</Studio>
         <Year> 2004</Year>
     </Movie>
-    <Not_a_movie/>
 </Movies>
