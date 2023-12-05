@@ -1,0 +1,34 @@
+from   collections import deque 
+
+def test_grapth(vert):
+    return [
+        [1,2],
+        [2,4],
+        [0,3],
+        [0],
+        [1],
+    ][vert]
+
+
+
+def BFS(start, target, adjaisant_func):
+    cur_front = [start]
+    next_front = []
+    visited = {start: None}
+    for dist in range(4):
+        for vert in cur_front:
+            for adjaisent in adjaisant_func(vert):
+                if adjaisent in visited: continue
+                next_front.append(adjaisent)
+                visited[adjaisent] = vert
+        if target in visited:
+            print("taget reached")
+            return visited
+        cur_front = next_front
+        next_front = []
+    print("out of range")
+
+
+
+
+print(BFS(4, 0, test_grapth))
