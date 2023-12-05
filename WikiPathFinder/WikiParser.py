@@ -29,7 +29,7 @@ def Batch_tab_open(urls:list[str])->None:
     browser = "C:/Users/Master/AppData/Local/Chromium/Application/chrome.exe"
     for url in urls:
         webbrowser.open_new(WikiDomain + url)
-        sleep(0.3)
+        sleep(1)
 
 
 
