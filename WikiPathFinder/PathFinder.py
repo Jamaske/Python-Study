@@ -1,7 +1,7 @@
 
 
 
-def BFS(start, target, adjacent_func):
+def BFS_lazy(start, target, adjacent_func):
     """
     Broad First Search
     takes id's of start and target vertices - start, target
@@ -26,7 +26,32 @@ def BFS(start, target, adjacent_func):
         next_front = []
     print("out of range")
 
-
+def BFS(start, target, adjacent_func):
+    """
+    Broad First Search
+    takes id's of start and target vertices - start, target
+    and function witch returns all adjacent vertices to a given one
+    """
+    cur_front = [start]
+    next_front = [] 
+    tree = {start: None} #dict with child, parent pairs
+    for dist in range(1,5):
+        print(f"search distance {dist}")
+        for vert in cur_front:
+            print(f'url visited: {"https://ru.wikipedia.org"+ vert}')
+            for adjacent in adjacent_func(vert):
+                if adjacent in tree: continue
+                next_front.append(adjacent)
+                tree[adjacent] = vert
+        
+        if target in tree:
+            print("target reached")
+            return tree, dist
+        else:
+            cur_front = next_front
+            next_front = []
+            
+    print("out of range")
 
 def TreeNodeToRootPath(tree, node):
     path = []
@@ -50,7 +75,7 @@ if __name__ == "__main__":
 
     start = 4
     target = 2
-    ret, dist = BFS(start, target, test_grapth)
+    ret, dist = BFS_lazy(start, target, test_grapth)
     path = TreeNodeToRootPath(ret, target)
     print(ret)
     print(dist, path)
