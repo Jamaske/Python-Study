@@ -13,7 +13,6 @@ def BFS_lazy(start, target, adjacent_func):
     for dist in range(1,5):
         print(f"search distance {dist}")
         for vert in cur_front:
-            print(f'url visited: {"https://ru.wikipedia.org"+ vert}')
             for adjacent in adjacent_func(vert):
                 if adjacent in tree: continue
                 next_front.append(adjacent)
@@ -38,7 +37,6 @@ def BFS(start, target, adjacent_func):
     for dist in range(1,5):
         print(f"search distance {dist}")
         for vert in cur_front:
-            print(f'url visited: {"https://ru.wikipedia.org"+ vert}')
             for adjacent in adjacent_func(vert):
                 if adjacent in tree: continue
                 next_front.append(adjacent)
@@ -50,7 +48,7 @@ def BFS(start, target, adjacent_func):
         else:
             cur_front = next_front
             next_front = []
-            
+
     print("out of range")
 
 def TreeNodeToRootPath(tree, node):

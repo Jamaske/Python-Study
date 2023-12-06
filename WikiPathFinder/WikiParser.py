@@ -21,7 +21,6 @@ class get_links:
             with open(get_links.page_parse_cache, "rb") as file:
                 self.storage = pickle.load(file)
                 print(f"page cach with: {len(self.storage)} entrys is successfully loaded")
-                print(type(self.storage))
         except Exception:
             self.storage = {}
             print("Can't open page cahce")
@@ -45,6 +44,7 @@ class get_links:
     def request_and_parsr(url:str)->str:
         """pars wiki page with given url and return all pages urls from it"""
         response = requests.get(get_links.WikiDomain + url).content
+        print(f'url visited: {get_links.WikiDomain + url}')
         get_links.web_request_count += 1
         content = html.fromstring(response).xpath("/html/body/div[3]/div[3]/div[5]/div[1]")[0]
         links = set()
