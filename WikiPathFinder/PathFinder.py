@@ -24,6 +24,7 @@ def BFS_lazy(start, target, adjacent_func):
         cur_front = next_front
         next_front = []
     print("out of range")
+    return tree, None
 
 def BFS(start, target, adjacent_func):
     """
@@ -50,6 +51,7 @@ def BFS(start, target, adjacent_func):
             next_front = []
 
     print("out of range")
+    return tree, None
 
 def TreeNodeToRootPath(tree, node):
     path = []
