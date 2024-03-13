@@ -31,8 +31,8 @@ def BinToText(binary):
         it is "slice syntax"   your_list[from:to:step]
         it is simular to regular indexing   your_list[index]
         it give you sublist from one you use it on
-        starting from first index (included) and ending on second index (excluded)
-        third number is a step. it is rarely used and i don't feel like explaining it.
+        starting from first index (included) and ending on second index (excluded).
+        Third number is a step. it is rarely used and i don't feel like explaining it.
         run code like [1,2,3,4,5,6,7,8,9,10][3:8:2] your self.
         '''
         char_code = int(char_code_binary, 2)  # convert string with binary to int
