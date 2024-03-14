@@ -13,7 +13,7 @@ Expirience = "/wiki/%D0%9E%D1%89%D1%83%D1%89%D0%B5%D0%BD%D0%B8%D0%B5"
 AC_DC = "/wiki/AC/DC"
 
 start = Math
-target = Logic
+target = AC_DC
 links_cource = get_links()
 try:
     tree, dist = PathFinder.BFS(start, target, links_cource)
@@ -24,4 +24,4 @@ try:
     else:
         print(f"can't find target. web requests made: {get_links.web_request_count},  cache hits: {get_links.cach_hit_count}")
 except Exception:
-    print("some error. IDK bro")
+    print("some error. IDK   bro")
