@@ -21,8 +21,7 @@ def BFS_lazy(start, target, adjacent_func):
             else: continue
             print("target reached")
             return tree, dist
-        cur_front = next_front
-        next_front = []
+        cur_front, next_front = next_front, []
     print("out of range")
     return tree, None
 
@@ -47,9 +46,7 @@ def BFS(start, target, adjacent_func):
             print("target reached")
             return tree, dist
         else:
-            cur_front = next_front
-            next_front = []
-
+            cur_front, next_front = next_front, []  
     print("out of range")
     return tree, None
 
