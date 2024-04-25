@@ -1,4 +1,6 @@
+
 x, y, z = 1.,2.,3.
+
 print("  X       Y        Z   ")
 print(f'{x:+.1f}  {y:+.1f}  {z:+.1f}')
 
