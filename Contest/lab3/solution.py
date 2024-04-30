@@ -1,4 +1,9 @@
 
+def Dijkstra(graph, weights, start, finish):
+    dist_from_start = [weights.get(i, 10**10) for i in range(len(graph))]
+    
+
+
 with open("in.txt", "r") as file:
     N = int(file.readline())
     graph = [[] for i in range(N)] #ajaisent 
