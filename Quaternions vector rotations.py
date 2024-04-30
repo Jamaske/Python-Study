@@ -1,9 +1,13 @@
-
-x, y, z = 1.,2.,3.
-
+x, y, z = 1,2,3
 print("  X       Y        Z   ")
 print(f'{x:+.1f}  {y:+.1f}  {z:+.1f}')
 
+side_names= ['0','+a','+b','+c','-c','-b', '-a']
+
+#print("  X       Y        Z   ")
+print(f'{x:+.1f}  {y:+.1f}  {z:+.1f}')
+#print(" X  Y  Z")
+print(f'{side_names[x]}  {side_names[y]}  {side_names[z]}')
 def rotate(a, b, c):
     """
     rotate vectore (x,y,z) by 90 degrees by (a,b,c) axis
@@ -47,7 +51,8 @@ def rotate3(a, b):
         )
     
 while True:
-    rotate3(*map(float, input().split()))
-    print(f'{x:+.1f}  {y:+.1f}  {z:+.1f}')
+    rotate3(*map(int, input().split()))
+    #print(f'{x:+.1f}  {y:+.1f}  {z:+.1f}')
+    print(f'{side_names[x]}  {side_names[y]}  {side_names[z]}')
     
     
