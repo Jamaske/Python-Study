@@ -1,9 +1,7 @@
-
-
-
-
-
 def Dijkstra(graph, start, finish)->(list[int], int):
+    if start == finish:
+        return [start], 0
+
     inf = 10 ** 10
 
     dist = [graph[start].get(i, inf) for i in range(len(graph))]
@@ -15,30 +13,34 @@ def Dijkstra(graph, start, finish)->(list[int], int):
     front = set(graph[start])
     visited = set((start,))
 
-    while front and finish not in front:
+    while front:
         
         cur, cur_dist = None, inf
-        for i in front:
+        for i in front:# find closest
             if dist[i] < cur_dist:
                 cur = i
                 cur_dist = dist[i]
+
+        if cur == finish:# treverse the path
+                path = []
+                cur = finish
+                while cur != None:
+                    path.append(str(cur + 1))
+                    cur = parents[cur]
+                return path, dist[finish]
+
         front.remove(cur)
         visited.add(cur)
         front.update(graph[cur].keys() - visited)
-
-        for adj in graph[cur]:
+        
+        for adj in graph[cur]: # update distances
             if dist[adj] > cur_dist + graph[cur][adj]:
                 dist[adj] = cur_dist + graph[cur][adj]
                 parents[adj] = cur
     
-    if not front: return None, None
+    return None, None
 
-    path = []
-    cur = finish
-    while cur != None:
-        path.append(str(cur + 1))
-        cur = parents[cur]
-    return path, dist[finish]
+
 
 
 
