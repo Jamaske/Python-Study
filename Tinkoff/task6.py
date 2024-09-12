@@ -60,4 +60,3 @@ if undone:
     print(-1)
 else:
     print(dist)
-
