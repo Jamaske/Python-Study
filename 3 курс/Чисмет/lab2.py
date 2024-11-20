@@ -2,7 +2,13 @@ from math import log, sin, log10, log2, ceil
 
 #your function
 def f(x):
-    return log10(x) - 0.13/x
+    try:
+        res = log10(x) - 0.13/x
+    except Exception:
+        print(f'error: log10({x})')
+        res = 0
+    finally:
+        return res
 
 #first derivetive
 def f1(x):
@@ -31,7 +37,7 @@ def Dihotomia(a,b):
     if f_a_sign == f_b_sign:Exception("no root on the segment")
 
     #Spesial exit condition
-    N = ceil(log2( (b - a) / E))
+    N = ceil(log2( (b - a) / E) - 1)
 
     #regular exit 
     n = 0
@@ -90,7 +96,9 @@ def movable_chord(a, b):
     
     n = 0
     while abs(f(cur)) >= mE:
+        #print(f'({prev:.4f}, {cur:.4f}) -> ',end = '')
         cur, prev = cur - (f(cur) * (cur - prev)) / (f(cur) - f(prev)), cur
+        #print(f'{cur:.4f}')
         n += 1
 
     return (cur, n)
@@ -108,10 +116,11 @@ def Newton(a,b):
         xn = b
     else:
         Exception("Do your research")
+
     #i've derived it from r_n < r_(n-1)^2 from the theory
     k = 0.5 * M / m
-    print(log(k * E), log(k * (b - a)))
-    N = ceil(log2(log(k * E) / log(k * (b - a))))
+    #print(log(k * E), log(k * (b - a)))
+    #N = ceil(log2(log(k * E) / log(k * (b - a))))
 
     n = 0
     while abs(f(xn)) >= mE:
@@ -157,11 +166,11 @@ def SimpleIteration(a,b):
 
 def main():
     #comon segment bounds
-    a, b = 1, 8
+    a, b = 1, 10
     results = [
         Dihotomia(a, b),
         immovable_chord(a,b),
-        movable_chord(a,b),
+        movable_chord(a,10),
         Newton(a,b),
         Parabola(a,b),
         SimpleIteration(a,b)
