@@ -2,6 +2,7 @@ from math import log, sin, log10, log2, ceil
 
 #your function
 def f(x):
+    #added log range error handling
     try:
         res = log10(x) - 0.13/x
     except Exception:
@@ -170,7 +171,7 @@ def main():
     results = [
         Dihotomia(a, b),
         immovable_chord(a,b),
-        movable_chord(a,10),
+        movable_chord(a,8),
         Newton(a,b),
         Parabola(a,b),
         SimpleIteration(a,b)
