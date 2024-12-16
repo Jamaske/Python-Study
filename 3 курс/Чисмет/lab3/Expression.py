@@ -4,14 +4,12 @@ class Expression:
         self.priority = priority
         self.history = history if history is not None else [str(value)]
 
-    def _record(self, operation, priority, other, result):
-        # Ensure `other` is represented correctly in the expression
-        other_expr = f"{other.history[-1]}" if isinstance(other, Expression) else str(other)
-        new_expr = f"({self.history[-1]} {operation} {other_expr})"
+    def _binary(self, operation, priority, other, result):
         M = max(len(self.history), len(other.history))
         m = min(len(self.history), len(other.history))
         history = [None] * (1 + M)
         history[0] = str(result)
+        #binary operation upon prepared values does not need them wraped in brackets
         history[1] = f"{self.history[0]} {operation} {other.history[0]}"
         w1 = '(' if self.priority < priority else ''
         w2 = ')' if self.priority < priority else ''
@@ -24,6 +22,16 @@ class Expression:
         for i in range(len(other.history), M):#self hist longer
             history[i + 1] = f"{w1}{self.history[i]}{w2} {operation} {w3}{other.history[-1]}{w4}"
         return Expression(result, history=history, priority=priority)
+    
+    def _unary(self, operation, priority, result):
+        history = [None] * (len(self.history) + 1)
+        history[0] = str(result)
+        w1 = '(' if self.priority < priority else ''
+        w2 = ')' if self.priority < priority else ''
+        for i in range(len(self.history)):
+            history[i+1] = f"{operation}{w1}{self.history[i]}{w2}"
+        return Expression(result, history=history, priority=priority)
+
 
     def flush(self):
         del self.history[1:]
@@ -33,37 +41,47 @@ class Expression:
     def __add__(self, other):
         if not isinstance(other, Expression): other = Expression(other)
         result = self.value + other.value
-        return self._record("+", 1, other, result)
+        return self._binary("+", 1, other, result)
 
     def __sub__(self, other):
         if not isinstance(other, Expression): other = Expression(other)
         result = self.value - other.value
-        return self._record("-", 1, other, result)
+        return self._binary("-", 1, other, result)
 
-    def __neg__(self):
-        self.value = -self.value
-        return self
+    def __neg__(self):#dont like negation takeing step in expresions mutations
+        result =  -self.value
+        priority = 4
+        history = [None] * len(self.history)
+        history[0] = str(result)
+        w1 = '(' if self.priority < priority else ''
+        w2 = ')' if self.priority < priority else ''
+        for i in range(1,len(self.history)):
+            history[i] = f"-{w1}{self.history[i]}{w2}"
+        return Expression(result, history=history, priority=priority)
 
     def __mul__(self, other):
         if not isinstance(other, Expression): other = Expression(other)
         result = self.value * other.value
-        return self._record("*", 2, other, result)
+        return self._binary("*", 2, other, result)
 
     def __truediv__(self, other):
         if not isinstance(other, Expression): other = Expression(other)
         if other.value == 0: raise ZeroDivisionError("Division by zero is undefined.")
         result = self.value / other.value
-        return self._record("/", 2,other, result)
+        return self._binary("/", 2,other, result)
 
     def __pow__(self, other):
         if not isinstance(other, Expression): other = Expression(other)
         result = self.value ** other.value
-        return self._record("^", 3,other, result)
+        return self._binary("^", 3,other, result)
 
     def steps(self):
-        return " =\n".join(self.history[::-1])
+        return " = ".join(self.history[::-1])
 
     def __str__(self):
+        return str(self.value)
+
+    def __repr__(self):
         return str(self.value)
 
 
@@ -80,10 +98,3 @@ if __name__ == "__main__":
     print("Final result:", exp)
     print("Steps:")
     print(exp.steps())
-
-
-'''
-TODO unary negation operations support
-minimal brackets.
-no dedicated steap used.
-'''

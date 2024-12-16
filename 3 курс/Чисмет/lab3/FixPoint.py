@@ -22,6 +22,10 @@ def Template(digits):
             if not isinstance(other, type(self)):
                 other = type(self)(other)
             return self.mantsaConstructor(self.mantisa - other.mantisa)
+        
+        def __neg__(self):
+            return self.mantsaConstructor(- self.mantisa)
+
 
         def __mul__(self, other):
             if not isinstance(other, type(self)):
