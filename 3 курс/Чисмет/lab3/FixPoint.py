@@ -5,42 +5,57 @@ def Template(digits):
             self.mantisa = int(value * self.shift)
 
         @classmethod
-        def mantsaConstructor(cls, mantisa):
+        def mantisaConstructor(cls, mantisa):
             instance = cls.__new__(cls)
             instance.mantisa = mantisa
             return instance
 
-        def __float__(self):
+        def __float__(self) -> float:
             return self.mantisa / self.shift
+
+        def __eq__(self, other) -> bool:
+            if not isinstance(other, type(self)): other = type(self)(other)
+            return self.mantisa == other.mantisa
+
+        def __lt__(self, other) -> bool:
+            if not isinstance(other, type(self)): other = type(self)(other)
+            return self.mantisa < other.mantisa
+
+        def __gt__(self, other) -> bool:
+            if not isinstance(other, type(self)): other = type(self)(other)
+            return self.mantisa > other.mantisa
 
         def __add__(self, other):
             if not isinstance(other, type(self)):
                 other = type(self)(other)
-            return self.mantsaConstructor(self.mantisa + other.mantisa)
+            return self.mantisaConstructor(self.mantisa + other.mantisa)
 
         def __sub__(self, other):
             if not isinstance(other, type(self)):
                 other = type(self)(other)
-            return self.mantsaConstructor(self.mantisa - other.mantisa)
+            return self.mantisaConstructor(self.mantisa - other.mantisa)
         
         def __neg__(self):
-            return self.mantsaConstructor(- self.mantisa)
+            return self.mantisaConstructor(- self.mantisa)
 
 
         def __mul__(self, other):
             if not isinstance(other, type(self)):
                 other = type(self)(other)
-            return self.mantsaConstructor(int(self.mantisa * other.mantisa / self.shift))
+            return self.mantisaConstructor(int(self.mantisa * other.mantisa / self.shift))
 
         def __truediv__(self, other):
             if not isinstance(other, type(self)):
                 other = type(self)(other)
             if other.mantisa == 0:
                 raise ZeroDivisionError("Division by zero is undefined.")
-            return self.mantsaConstructor(int(self.mantisa * self.shift / other.mantisa))
+            return self.mantisaConstructor(int(self.mantisa * self.shift / other.mantisa))
+
+        def __abs__(self):
+            return self.mantisaConstructor(abs(self.mantisa))
 
         def __str__(self):
-            return f"{self.__float__():+.{len(str(self.shift)) - 1}f}"
+            return f"{self.__float__():>+{6 + self.digits}.{self.digits}f}"
 
     FixPoint.digits = digits #add static class fied that parametrize it (tamplate<int digits>)
     FixPoint.shift = 10 ** digits

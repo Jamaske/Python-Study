@@ -23,13 +23,13 @@ class Expression:
             history[i + 1] = f"{w1}{self.history[i]}{w2} {operation} {w3}{other.history[-1]}{w4}"
         return Expression(result, history=history, priority=priority)
     
-    def _unary(self, operation, priority, result):
+    def _unary(self, safix, postfix, priority, result):
         history = [None] * (len(self.history) + 1)
         history[0] = str(result)
         w1 = '(' if self.priority < priority else ''
         w2 = ')' if self.priority < priority else ''
         for i in range(len(self.history)):
-            history[i+1] = f"{operation}{w1}{self.history[i]}{w2}"
+            history[i+1] = f"{safix}{w1}{self.history[i]}{w2}{postfix}"
         return Expression(result, history=history, priority=priority)
 
 
@@ -69,20 +69,39 @@ class Expression:
         if other.value == 0: raise ZeroDivisionError("Division by zero is undefined.")
         result = self.value / other.value
         return self._binary("/", 2,other, result)
+    
+    def __abs__(self):
+        result = abs(self.value)
+        return self._unary("|", "|", 4, result)
 
     def __pow__(self, other):
         if not isinstance(other, Expression): other = Expression(other)
         result = self.value ** other.value
         return self._binary("^", 3,other, result)
 
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, type(self)): other = type(self)(other)
+        return self.value == other.value
+
+    def __lt__(self, other) -> bool:
+        if not isinstance(other, type(self)): other = type(self)(other)
+        return self.value < other.value
+
+    def __gt__(self, other) -> bool:
+        if not isinstance(other, type(self)): other = type(self)(other)
+        return self.value > other.value
+
     def steps(self):
         return " = ".join(self.history[::-1])
 
+    def __float__(self):
+        return float(self.value)
+
     def __str__(self):
-        return str(self.value)
+        return self.history[0]
 
     def __repr__(self):
-        return str(self.value)
+        return self.history[0]
 
 
 if __name__ == "__main__":
