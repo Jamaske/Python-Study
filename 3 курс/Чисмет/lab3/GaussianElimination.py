@@ -9,7 +9,7 @@ class GaussianElimination():
         return start
 
 
-    def __init__(self, hight:int, width:int, source=None, ans = None, chose:bool = True):
+    def __init__(self, hight:int, width:int, source=None, correct = None, chose:bool = True):
         '''
         hight, width - размеры матрицы состоящей из обьединения матрицы A и набора правых векторов-стлбцов
         source - матрица в виде списка из списков-строк
@@ -21,7 +21,7 @@ class GaussianElimination():
         self.m = min(hight, width)
         self.M = max(hight, width)
         self.data = source
-        self.ans = ans
+        self.correct = correct
         self.chose = chose
         self.row_map = list(range(hight))
         self.col_map = list(range(width))
@@ -29,9 +29,9 @@ class GaussianElimination():
 
     def forward(self):
         print("forward step")
-        self.print_state()
         for diag in range(self.m):
             if self.chose:
+                self.print_state()
                 # Find the maximum element in the remaining submatrix
                 max_element = abs(self.data[self.row_map[diag]][self.col_map[diag]])
                 max_row = diag
@@ -68,6 +68,7 @@ class GaussianElimination():
 
     def backward(self):
         print("\nbackward step\n")
+        self.print_state()
         last_col = self.w - 1
         for i in range(self.h-1, -1, -1):
             exp = self.sub((self.data[self.row_map[i]][self.col_map[j]] * self.data[self.row_map[j]][self.col_map[last_col]] for j in range(self.h-1, i, -1)), start=self.data[self.row_map[i]][self.col_map[last_col]])
@@ -76,11 +77,28 @@ class GaussianElimination():
             self.data[self.row_map[i]][self.col_map[last_col]] = exp
         self.print_state()
     
+    def answer(self):
+        print('answer')
+        ans = []
+        for j in range(self.h, self.w):
+            vect = []
+            for i in range(self.h):
+                # Да-да двойное отобрпжение через таблицы перестановок.
+                # Почему? Я не имею ни малейшего понятия.
+                # Как я это вывел? Больно... очень больно.
+                x = self.data[self.row_map[self.col_map[i]]][self.col_map[j]]
+                vect.append(x)
+                print(x, end = '\t')
+            ans.append(vect)
+            print()
+        self.ans = ans
+        print()
+
     def err(self):
         """
         for each rhs column-vector return its norm2 error from correct value
         """
-        return [sum(( (float(self.data[self.row_map[i]][self.col_map[j]] - float(self.ans[j - self.h][i])))**2 for i in range(self.h)))**0.5   for j in range(self.h, self.w)]
+        return [sum(( (float(self.ans[j][i]) - float(self.correct[j][i])))**2 for i in range(self.h))**0.5   for j in range(self.w - self.h)]
 
 
     def solve(self):
@@ -90,7 +108,8 @@ class GaussianElimination():
             print("Devision by Zero. Skip rest of the algo")
             return
         self.backward()
-        if self.ans is not None:
+        self.answer()
+        if self.correct is not None:
             print(f"errors: {', '.join(map(lambda err:  f'{err:.7f}',self.err()))}")
             
 

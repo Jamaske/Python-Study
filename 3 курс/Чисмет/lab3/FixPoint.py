@@ -55,7 +55,7 @@ def Template(digits):
             return self.mantisaConstructor(abs(self.mantisa))
 
         def __str__(self):
-            return f"{self.__float__():>+{6 + self.digits}.{self.digits}f}"
+            return f"{self.__float__():>+{4 + self.digits}.{self.digits}f}"
 
     FixPoint.digits = digits #add static class fied that parametrize it (tamplate<int digits>)
     FixPoint.shift = 10 ** digits
