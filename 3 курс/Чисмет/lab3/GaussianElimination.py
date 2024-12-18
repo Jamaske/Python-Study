@@ -29,6 +29,8 @@ class GaussianElimination():
 
     def forward(self):
         print("forward step")
+
+        if not self.chose: self.print_state()
         for diag in range(self.m):
             if self.chose:
                 self.print_state()
@@ -46,14 +48,14 @@ class GaussianElimination():
                 # Update row and column maps
                 self.row_map[diag], self.row_map[max_row] = self.row_map[max_row], self.row_map[diag]
                 self.col_map[diag], self.col_map[max_col] = self.col_map[max_col], self.col_map[diag]
-                print(f"max el {max_row},{max_col} is swaped")
+                print(f"max el {max_row + 1},{max_col + 1} is swaped")
                 self.print_state()
 
             # Column calculations b_ij
             j = diag
             for i in range(diag, self.h):
                 exp = self.sub((self.data[self.row_map[i]][self.col_map[k]] * self.data[self.row_map[k]][self.col_map[j]] for k in range(j)), start=self.data[self.row_map[i]][self.col_map[j]])
-                print(f'b_{i}{j} = {exp.steps()}')
+                print(f'b_{i + 1}{j + 1} = {exp.steps()}')
                 exp.flush()
                 self.data[self.row_map[i]][self.col_map[j]] = exp
 
@@ -62,7 +64,7 @@ class GaussianElimination():
             for j in range(diag + 1, self.w):
                 exp = self.sub((self.data[self.row_map[i]][self.col_map[k]] * self.data[self.row_map[k]][self.col_map[j]] for k in range(i)), start=self.data[self.row_map[i]][self.col_map[j]])
                 exp = exp / self.data[self.row_map[i]][self.col_map[i]]
-                print(f'c_{i}{j} = {exp.steps()}')
+                print(f'c_{i + 1}{j + 1} = {exp.steps()}')
                 exp.flush()
                 self.data[self.row_map[i]][self.col_map[j]] = exp
 
@@ -72,7 +74,7 @@ class GaussianElimination():
         last_col = self.w - 1
         for i in range(self.h-1, -1, -1):
             exp = self.sub((self.data[self.row_map[i]][self.col_map[j]] * self.data[self.row_map[j]][self.col_map[last_col]] for j in range(self.h-1, i, -1)), start=self.data[self.row_map[i]][self.col_map[last_col]])
-            print(f'x_{i} = {exp.steps()}')
+            print(f"x'_{i + 1} = {exp.steps()}")
             exp.flush()
             self.data[self.row_map[i]][self.col_map[last_col]] = exp
         self.print_state()
