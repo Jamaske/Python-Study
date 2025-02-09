@@ -56,16 +56,19 @@ def interp(arr:list, value:int, logger = None) -> int:
         mv = arr[m]
         if mv == value:
             return m
-        elif  arr[m] < value:
+        elif  mv < value:
             l = m + 1
         else:
             r = m - 1
     return l
 
-#a = [1,1,1,1,1,1,1,2,2,2,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4]
 
+#Driver Code
+
+#a = [1,1,1,1,1,1,1,2,2,2,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4]
 a = sorted([randint(0, 1e4) for _ in range(32)])
 a.sort()
+
 idx = randint(0, len(a) - 1)
 find = a[idx]
 print(f"\nfind {find} at index {idx}\n")
