@@ -1,52 +1,28 @@
+class A:
+    """my doc"""
+    def __init__(self, id_):
+        pass
+        #self.id = id_
 
-def foo(number, string):
-    for i in range(number):
-        print(string)
-
-class car:
-    def __init__(self, long, stearing_wheel):
-        if long:
-            self.numberofWheels = 6
-        else:
-            self.numberofWheels = 4
-        self.stearing_wheel = stearing_wheel
-    
-    def drive(self):
-        self.numberofWheels -= 1
-        print("wheel fall off")
-        if self.stearing_wheel == "left":
-            print("actualy you died")
-        if self.numberofWheels == 4:
-            print("you piked up some bitches")
-MyCar = car(False, "left")
-Yourcar = car(True, "right")
-
-print("my car")
-MyCar.drive()
-
-print("your car")
-Yourcar.drive()
-Yourcar.drive()
+    def __hash__(self):
+        return 1
 
 
-
-'''
-class FUCK:
-    field = "fuck"
-
-
-    def method(x, n = 1):
-        for ㅤ in range(n):
-            print(x.field)
-
-fuck = FUCK()
-
-fuck.method()
+d = {A(1): 1}
+d[A(2)] = 2
+d[A(1)] = 3
+it = d.items()
+for k, v in it:
+    print(k, v)
 
 
 
 
-FUCK.method2 = lambda x: print("Fuck method2")
+def g():
+    x = 5
+    def f():
+        print(x)
 
-fuck.method2()
-'''
+    return f
+x = 3
+g()()

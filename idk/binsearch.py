@@ -62,19 +62,66 @@ def interp(arr:list, value:int, logger = None) -> int:
             r = m - 1
     return l
 
+@preaty
+def interp2(arr:list, value:int, logger = None) -> int:
+    l = 0
+    r = len(arr) - 1
+    lv = arr[l]
+    rv = arr[r]
+    arr.extend([1e4, -1e4])
+
+    while l <= r:
+        dif = rv -lv
+        if dif: 
+            p = l + ((r - l) * (value - lv) + dif >> 1) // dif
+            if p < l or r < p:
+                arr.pop()
+                arr.pop()
+                return l if p < l else r
+        else:
+            p = (l + r) // 2
+
+        print(p)
+        logger((l, r, p))
+
+        pv = arr[p]
+        if pv == value:
+            arr.pop()
+            arr.pop()
+            return p
+        elif  pv < value:
+            l = p + 1
+            lv = arr[l]
+            #if value < lv:
+            #     return l
+        else:
+            r = p - 1
+            rv = arr[r]
+            # if rv < value:
+            #     return r
+    arr.pop()
+    arr.pop()
+    if value - rv <= lv - value:
+        return r
+    else:
+        return l 
+
 
 #Driver Code
 
 #a = [1,1,1,1,1,1,1,2,2,2,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4]
-a = sorted([randint(0, 1e4) for _ in range(32)])
+a = sorted([randint(0, 1e2) for _ in range(32)])
 a.sort()
 
 idx = randint(0, len(a) - 1)
 find = a[idx]
-print(f"\nfind {find} at index {idx}\n")
+print(f"========= data generated ===========\n\nfind {find} at index {idx}\n")
+
+#find = randint(0, 1e3)
+#print(f"========= data generated ===========\n\nfind {find} \n")
+
 
 search_ac(a, find)
-#search_lo(a, 3)
-interp(a, find)
+interp2(a, find)
 
 

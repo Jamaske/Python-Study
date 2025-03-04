@@ -35,7 +35,7 @@ def req_perm(variate_idx):
         req_perm(variate_idx + 1)
         arr[variate_idx], arr[i] = arr[i], arr[variate_idx] #revert prev swap for undone any changes
 
-arr = [0,2,3,4,5,6,7,8,9,10,11,12,1]
+arr = list(range(16))
 max_bits = 15
 best_cost = 10**4
 best_var = []
@@ -47,5 +47,6 @@ soluton2 = [7, 8, 1, 6, 9, 2, 4, 11, 0, 5, 10, 3, 12, 13, 14, 15]# score 1087
 soluton3 = [3, 12, 0, 7, 8, 1, 6, 9, 2, 4, 11, 5, 10, 13, 14, 15]# score 1096
 
 print("final result:")
-print(f'with score:{best_cost} ({orderedness(arr):.2f} oedered metric)')
+print(f'with score:{best_cost} ({orderedness(arr):.2f} ordered metric)')
 print(best_var)
+

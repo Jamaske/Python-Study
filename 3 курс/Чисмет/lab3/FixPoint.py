@@ -38,7 +38,6 @@ def Template(digits):
         def __neg__(self):
             return self.mantisaConstructor(- self.mantisa)
 
-
         def __mul__(self, other):
             if not isinstance(other, type(self)):
                 other = type(self)(other)
